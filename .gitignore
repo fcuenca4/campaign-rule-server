@@ -1,4 +1,6 @@
-/target/
+/campaign-rule-server/target/
+/campaign-rule-server/bin/
+
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
