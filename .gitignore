@@ -26,3 +26,5 @@
 
 ##VSCODE##
 .vscode
+*.class
+.clover
