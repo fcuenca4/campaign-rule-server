@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - PostgresDemoApplication",
+            "request": "launch",
+            "mainClass": "com.example.decider.PostgresDemoApplication",
+            "projectName": "postgres-demo"
+        }
+    ]
+}
