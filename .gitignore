@@ -26,5 +26,8 @@
 
 ##VSCODE##
 .vscode
+
+##OTHERS##
 *.class
 .clover
+.DS_Store
