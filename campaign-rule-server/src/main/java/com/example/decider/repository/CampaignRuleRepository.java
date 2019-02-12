@@ -1,7 +1,7 @@
 package com.example.decider.repository;
 
 
-import com.example.decider.model.CampaignRule;
+import com.example.decider.model.strategy.CampaignRule;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

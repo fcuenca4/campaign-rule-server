@@ -1,6 +1,6 @@
 package com.example.decider.controller;
 
-import com.example.decider.model.CampaignRule;
+import com.example.decider.model.strategy.CampaignRule;
 import com.example.decider.model.Context;
 import com.example.decider.model.CurrencyAndAmount;
 import com.example.decider.model.Payment;
@@ -17,7 +17,6 @@ import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @RestController
 public class ContextController {
@@ -39,9 +38,10 @@ public class ContextController {
         try {
             CurrencyAndAmount cc = new CurrencyAndAmount("ARS",new BigInteger("1000"));
 
-            Payment p1 = new Payment(UUID.randomUUID(), UUID.randomUUID(),"",cc);
+            Payment p1 = new Payment(UUID.randomUUID(), UUID.randomUUID(),"qr",cc);
 
             Context cont1 = new Context(new BigInteger("100"),p1);
+
             List<CampaignRule> rules = contextService.findAllRules(cont1);
             return new ResponseEntity<>(rules, HttpStatus.OK);
         } catch (Exception e) {

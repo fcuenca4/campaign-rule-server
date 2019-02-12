@@ -1,29 +1,30 @@
-package com.example.decider.model;
+package com.example.decider.model.strategy;
 
 import lombok.*;
+
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "campaign_rules")
 @Getter
 @Setter
 @AllArgsConstructor
-public class CampaignRule{
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "campaign_type")
+@Table(name = "campaign")
+public abstract class CampaignRule implements Rule,Comparable<CampaignRule>{
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private UUID campaignId;
     private Date startDate;
     private Date endDate;
     private BigInteger discountAmount;
     private BigInteger percentage;
-    private int priority;
+    private Integer priority;
 
-    public CampaignRule(UUID campaignId, Date startDate, Date endDate, BigInteger discountAmount, BigInteger percentage, int priority) {
-        this.campaignId = campaignId;
+    public CampaignRule(Date startDate, Date endDate, BigInteger discountAmount, BigInteger percentage, int priority) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.discountAmount = discountAmount;
@@ -37,14 +38,6 @@ public class CampaignRule{
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public UUID getCampaignId() {
-        return campaignId;
-    }
-
-    public void setCampaignId(UUID campaignId) {
-        this.campaignId = campaignId;
     }
 
     public Date getStartDate() {
@@ -79,11 +72,11 @@ public class CampaignRule{
         this.percentage = percentage;
     }
 
-    public int getPriority() {
+    public Integer getPriority() {
         return priority;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(Integer priority) {
         this.priority = priority;
     }
 }

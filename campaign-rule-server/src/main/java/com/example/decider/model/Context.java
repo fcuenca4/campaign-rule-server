@@ -9,13 +9,10 @@ import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.UUID;
 
-@Builder
-@Getter
+
 @Entity
 @Table(name = "contexts")
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Context {
     @Id
     @NotNull
@@ -44,7 +41,8 @@ public class Context {
         this.maximumAmount = maximumAmount;
         this.payment = payment;
     }
-
+    public Context() {
+    }
     public void setId(UUID id) {
         this.id = id;
     }
