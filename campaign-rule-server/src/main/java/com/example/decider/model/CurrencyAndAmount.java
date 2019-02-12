@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
@@ -29,8 +29,9 @@ public class CurrencyAndAmount {
     private Payment payment;
     @NotNull
     private String currency;
+    private @NotNull BigDecimal minorUnits;
 
-    public CurrencyAndAmount(@NotNull String currency, @NotNull BigInteger minorUnits) {
+    public CurrencyAndAmount(@NotNull String currency, @NotNull BigDecimal minorUnits) {
         this.currency = currency;
         this.minorUnits = minorUnits;
     }
@@ -59,14 +60,13 @@ public class CurrencyAndAmount {
         this.currency = currency;
     }
 
-    public BigInteger getMinorUnits() {
+    public @NotNull BigDecimal getMinorUnits() {
         return minorUnits;
     }
 
-    public void setMinorUnits(BigInteger minorUnits) {
+    public void setMinorUnits(@NotNull BigDecimal minorUnits) {
         this.minorUnits = minorUnits;
     }
 
-    @NotNull
-    private BigInteger minorUnits;
+
 }

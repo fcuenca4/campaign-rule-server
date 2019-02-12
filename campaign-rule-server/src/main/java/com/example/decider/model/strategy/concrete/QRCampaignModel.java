@@ -4,13 +4,14 @@ import com.example.decider.model.strategy.CampaignRule;
 import com.example.decider.model.Context;
 
 import javax.persistence.Entity;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 @Entity
 
 public class QRCampaignModel extends CampaignRule {
 
-    public QRCampaignModel(Date startDate, Date endDate, BigInteger discountAmount, BigInteger percentage, int priority) {
+    public QRCampaignModel(Date startDate, Date endDate, BigDecimal discountAmount, BigDecimal percentage, int priority) {
         super(startDate, endDate, discountAmount, percentage, priority);
     }
 
@@ -24,8 +25,7 @@ public class QRCampaignModel extends CampaignRule {
         return new BigInteger("33");
     }
 
-    @Override
-    public int compareTo(CampaignRule o) {
-        return (this.getPriority()).compareTo(o.getPriority());
+    public QRCampaignModel() {
+
     }
 }

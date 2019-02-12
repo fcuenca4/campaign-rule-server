@@ -3,7 +3,7 @@ package com.example.decider.model.strategy;
 import lombok.*;
 
 import javax.persistence.*;
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
@@ -20,16 +20,24 @@ public abstract class CampaignRule implements Rule,Comparable<CampaignRule>{
     private UUID id;
     private Date startDate;
     private Date endDate;
-    private BigInteger discountAmount;
-    private BigInteger percentage;
+    private BigDecimal discountAmount;
+    private BigDecimal percentage;
     private Integer priority;
 
-    public CampaignRule(Date startDate, Date endDate, BigInteger discountAmount, BigInteger percentage, int priority) {
+    public CampaignRule(Date startDate, Date endDate, BigDecimal discountAmount, BigDecimal percentage, int priority) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.discountAmount = discountAmount;
         this.percentage = percentage;
         this.priority = priority;
+    }
+
+    public CampaignRule() {
+    }
+
+    @Override
+    public int compareTo(CampaignRule campaign) {
+        return (this.getPriority()).compareTo(campaign.getPriority());
     }
 
     public UUID getId() {
@@ -56,19 +64,19 @@ public abstract class CampaignRule implements Rule,Comparable<CampaignRule>{
         this.endDate = endDate;
     }
 
-    public BigInteger getDiscountAmount() {
+    public BigDecimal getDiscountAmount() {
         return discountAmount;
     }
 
-    public void setDiscountAmount(BigInteger discountAmount) {
+    public void setDiscountAmount(BigDecimal discountAmount) {
         this.discountAmount = discountAmount;
     }
 
-    public BigInteger getPercentage() {
+    public BigDecimal getPercentage() {
         return percentage;
     }
 
-    public void setPercentage(BigInteger percentage) {
+    public void setPercentage(BigDecimal percentage) {
         this.percentage = percentage;
     }
 
