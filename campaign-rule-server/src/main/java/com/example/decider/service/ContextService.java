@@ -37,7 +37,6 @@ public class ContextService {
     CampaignRuleRepository campaignRuleRepository;
     @Autowired
     NotificationService notificationService;
-    @Transactional
     public List<CampaignRule> findValidRules(Context context) {
         createModel();
         List<CampaignRule> allRules = campaignService.findByStartDateBeforeAndEndDateAfterOrderByPriorityDesc(new Date())
@@ -54,10 +53,10 @@ public class ContextService {
         Date yesterday = Date.from(dateYearBefor.toInstant(ZoneOffset.ofTotalSeconds(1)));
 
 
-        CampaignRule cr1 = new QRCampaignModel(now,yesterday, new BigDecimal("10"), new BigDecimal("10"),1);
-        CampaignRule cr2 = new QRCampaignModel(yesterday,now, new BigDecimal("100"), new BigDecimal("15"),1);
-        CampaignRule cr3 = new QRCampaignModel(yesterday,now, new BigDecimal("1000"), new BigDecimal("20"),1);
-        CampaignRule cr4 = new QRCampaignModel(yesterday,now, new BigDecimal("10000"), new BigDecimal("25"),1);
+        CampaignRule cr1 = new QRCampaignModel(now,dateTo, new BigDecimal("10"), new BigDecimal("10"),1);
+        CampaignRule cr2 = new QRCampaignModel(now,dateTo, new BigDecimal("100"), new BigDecimal("15"),1);
+        CampaignRule cr3 = new QRCampaignModel(now,dateTo, new BigDecimal("1000"), new BigDecimal("20"),1);
+        CampaignRule cr4 = new QRCampaignModel(now,dateTo, new BigDecimal("10000"), new BigDecimal("25"),1);
         CampaignRule cr5 = new QRCampaignModel(now,dateTo, new BigDecimal("100000"), new BigDecimal("100"),1);
 
         campaignRuleRepository.save(cr1);
@@ -85,6 +84,7 @@ public class ContextService {
     }
 
     @Async
+    @Transactional
     public void findAndPublish(Context context) {
         List<CampaignRule> validRules = this.findValidRules(context);
         try {

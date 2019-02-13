@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableJpaAuditing
 @EnableJpaRepositories
-public class PostgresDemoApplication {
+public class CampaignRuleServer {
 	public static void main(String[] args) {
-		SpringApplication.run(PostgresDemoApplication.class, args);
+		SpringApplication.run(CampaignRuleServer.class, args);
 	}
 }
