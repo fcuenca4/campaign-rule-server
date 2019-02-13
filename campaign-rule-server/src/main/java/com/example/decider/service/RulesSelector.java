@@ -1,4 +1,4 @@
-package com.example.decider.service.selector;
+package com.example.decider.service;
 
 import com.example.decider.model.Context;
 import com.example.decider.model.strategy.CampaignRule;

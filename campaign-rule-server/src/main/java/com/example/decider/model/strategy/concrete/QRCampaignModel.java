@@ -1,11 +1,10 @@
 package com.example.decider.model.strategy.concrete;
 
-import com.example.decider.model.strategy.CampaignRule;
 import com.example.decider.model.Context;
+import com.example.decider.model.strategy.CampaignRule;
 
 import javax.persistence.Entity;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
 @Entity
 
@@ -20,10 +19,6 @@ public class QRCampaignModel extends CampaignRule {
         return context.getPayment().getReference().equals("qr") ;
     }
 
-    @Override
-    public BigInteger then(Context context) {
-        return new BigInteger("33");
-    }
 
     public QRCampaignModel() {
 

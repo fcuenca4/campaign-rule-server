@@ -1,5 +1,6 @@
 package com.example.decider.model.strategy;
 
+import com.example.decider.model.AuditModel;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "campaign_type")
 @Table(name = "campaign")
-public abstract class CampaignRule implements Rule,Comparable<CampaignRule>{
+public abstract class CampaignRule extends AuditModel implements Rule,Comparable<CampaignRule> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
