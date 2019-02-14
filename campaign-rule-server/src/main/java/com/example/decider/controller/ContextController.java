@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.UUID;
 
 @RestController
 public class ContextController {
@@ -22,18 +21,19 @@ public class ContextController {
     @Autowired
     private ContextService contextService;
     @Autowired
-    private IdempotencyService<UUID,ResponseEntity> idempotencyService;
+    private IdempotencyService<Integer,ResponseEntity> idempotencyService;
 
     @PostMapping("/context")
     public ResponseEntity<?> postContext(@Valid @RequestBody Context context) {
         try {
-            ResponseEntity response = idempotencyService.getValue(context.getId());
+            int hashKey = context.hashCode();
+            ResponseEntity response = idempotencyService.getValue(hashKey);
             if (response != null){
                 return response;
             }
             contextService.findAndPublish(context);
             response = ResponseEntity.ok().build();
-            idempotencyService.setValue(context.getId(),response);
+            idempotencyService.setValue(hashKey,response);
             return response;
         }catch (PublishException p){
             logger.error(p.getStackTrace());

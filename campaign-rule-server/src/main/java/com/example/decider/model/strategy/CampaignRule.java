@@ -12,6 +12,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -50,6 +51,24 @@ public abstract class CampaignRule extends AuditModel implements Rule,Comparable
     @Override
     public int compareTo(CampaignRule campaign) {
         return (this.getPriority()).compareTo(campaign.getPriority());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CampaignRule)) return false;
+        CampaignRule that = (CampaignRule) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getStartDate(), that.getStartDate()) &&
+                Objects.equals(getEndDate(), that.getEndDate()) &&
+                Objects.equals(getDiscountAmount(), that.getDiscountAmount()) &&
+                Objects.equals(getPercentage(), that.getPercentage()) &&
+                Objects.equals(getPriority(), that.getPriority());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getDiscountAmount(), getPercentage(), getPriority());
     }
 
     public UUID getId() {

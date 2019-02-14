@@ -3,6 +3,7 @@ package com.example.decider.controller;
 import com.example.decider.exception.InternalServerErrorException;
 import com.example.decider.model.strategy.CampaignRule;
 import com.example.decider.service.CampaignService;
+import com.example.decider.service.IdempotencyService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,19 @@ public class CampaignRuleController {
     private static final Logger logger = LogManager.getLogger(ContextController.class);
     @Autowired
     private CampaignService campaignService;
+    @Autowired
+    private IdempotencyService<Integer,ResponseEntity> idempotencyService;
 
     @GetMapping("/campaign/rule/{campaignRuleId}")
-    public ResponseEntity<CampaignRule> getCampaignRule(@Valid @PathVariable UUID campaignRuleId) {
-        return ResponseEntity.ok(campaignService.findCampaignRuleById(campaignRuleId));
+    public ResponseEntity<?> getCampaignRule(@Valid @PathVariable UUID campaignRuleId) {
+        int hashedKey = campaignRuleId.hashCode();
+        ResponseEntity response = idempotencyService.getValue(hashedKey);
+        if (response != null){
+            return response;
+        }
+        response = ResponseEntity.ok(campaignService.findCampaignRuleById(campaignRuleId));
+        idempotencyService.setValue(hashedKey,response);
+        return response;
     }
 
     @PutMapping("/campaign/rule/{campaignRuleId}")
@@ -46,14 +56,19 @@ public class CampaignRuleController {
         return ResponseEntity.ok().build();
     }
     @PostMapping("/campaign/rule")
-    public ResponseEntity<CampaignRule> addCampaignRule(@Valid @RequestBody CampaignRule campaignRule) {
-        CampaignRule returnRule;
+    public ResponseEntity<?> addCampaignRule(@Valid @RequestBody CampaignRule campaignRule) {
+        int hashedKey = campaignRule.hashCode();
+        ResponseEntity response = idempotencyService.getValue(hashedKey);
+        if (response != null){
+            return response;
+        }
         try {
-            returnRule = campaignService.save(campaignRule);
+            response =  ResponseEntity.ok(campaignService.save(campaignRule));
         }catch (DataAccessException err){
             logger.error(err.toString());
             throw new InternalServerErrorException("Internal Server Error");
         }
-        return ResponseEntity.ok(returnRule);
+        idempotencyService.setValue(hashedKey,response);
+        return response;
     }
 }
