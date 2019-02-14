@@ -1,7 +1,13 @@
 package com.example.decider.model.strategy;
 
 import com.example.decider.model.AuditModel;
-import lombok.*;
+import com.example.decider.model.strategy.concrete.BigSellerCampaignModel;
+import com.example.decider.model.strategy.concrete.QRCampaignModel;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -15,6 +21,11 @@ import java.util.UUID;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "campaign_type")
 @Table(name = "campaign")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "campaignName")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = BigSellerCampaignModel.class),
+        @JsonSubTypes.Type(value = QRCampaignModel.class),
+})
 public abstract class CampaignRule extends AuditModel implements Rule,Comparable<CampaignRule> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

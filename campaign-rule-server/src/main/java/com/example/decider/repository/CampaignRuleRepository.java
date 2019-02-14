@@ -15,4 +15,6 @@ public interface  CampaignRuleRepository extends JpaRepository<CampaignRule, UUI
     default Stream<CampaignRule> findByStartDateBeforeAndEndDateAfterOrderByPriorityDesc(Date givenDate) {
         return findByStartDateBeforeAndEndDateAfterOrderByPriorityDesc(givenDate, givenDate);
     }
+
+    void deleteById(UUID id);
 }
