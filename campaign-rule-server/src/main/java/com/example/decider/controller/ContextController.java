@@ -31,7 +31,6 @@ public class ContextController {
     }
     @GetMapping("/context")
     public ResponseEntity<?> cntx() {
-
         List<CampaignRule> rules = new ArrayList<>();
         CurrencyAndAmount cc = new CurrencyAndAmount("ARS",new BigDecimal("1000"));
         Payment p1 = new Payment(UUID.randomUUID(), UUID.randomUUID(),"qr",cc);
