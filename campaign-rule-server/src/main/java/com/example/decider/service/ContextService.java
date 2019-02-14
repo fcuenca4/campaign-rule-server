@@ -41,7 +41,6 @@ public class ContextService {
     @Async
     @Transactional
     public void findAndPublish(Context context) throws PublishException{
-        log.info("hola");
         List<CampaignRule> validRules = this.findValidRules(context);
         notificationService.publish(context, validRules);
     }

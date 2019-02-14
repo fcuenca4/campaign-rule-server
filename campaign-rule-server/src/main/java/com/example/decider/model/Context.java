@@ -9,9 +9,8 @@ import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.UUID;
 
-
 @Entity
-@Table(name = "contexts")
+@Table(name = "context")
 @Setter
 public class Context {
     @Id
@@ -20,10 +19,18 @@ public class Context {
     private UUID id;
     @Nullable
     private BigInteger maximumAmount;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "context")
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @MapsId
     @NotNull
     private Payment payment;
 
+    public Context(@Nullable BigInteger maximumAmount, @NotNull Payment payment) {
+        this.maximumAmount = maximumAmount;
+        this.payment = payment;
+    }
+    public Context() {
+    }
     public UUID getId() {
         return id;
     }
@@ -37,12 +44,7 @@ public class Context {
         return payment;
     }
 
-    public Context(@Nullable BigInteger maximumAmount, @NotNull Payment payment) {
-        this.maximumAmount = maximumAmount;
-        this.payment = payment;
-    }
-    public Context() {
-    }
+
     public void setId(UUID id) {
         this.id = id;
     }

@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -12,26 +13,25 @@ import java.util.UUID;
 @Getter
 @Setter
 public class Payment {
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-    @OneToOne(fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
-    private Context context;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "payment")
-    private CurrencyAndAmount currencyAndAmount;
-    @NotNull
-    private UUID payeeAccountUid;
-    @NotNull
-    private UUID payeeUuid;
-    private String reference;
+    private @NotNull UUID id;
 
-    public Payment(@NotNull UUID payeeAccountUid, @NotNull UUID payeeUuid, String reference, @NotNull CurrencyAndAmount currencyAndAmount) {
-        this.payeeAccountUid = payeeAccountUid;
+    private @NotNull UUID payeeAccountUuid;
+    private @NotNull  UUID payeeUuid;
+    private String reference;
+    private @NotNull String currency;
+    private @NotNull BigDecimal minorUnits;
+
+    public Payment(@NotNull UUID payeeAccountUuid, @NotNull UUID payeeUuid, String reference, @NotNull String currency, @NotNull BigDecimal minorUnits) {
+        this.payeeAccountUuid = payeeAccountUuid;
         this.payeeUuid = payeeUuid;
         this.reference = reference;
-        this.currencyAndAmount = currencyAndAmount;
+        this.currency = currency;
+        this.minorUnits = minorUnits;
+    }
+
+    public Payment() {
     }
 
     public UUID getId() {
@@ -42,12 +42,12 @@ public class Payment {
         this.id = id;
     }
 
-    public UUID getPayeeAccountUid() {
-        return payeeAccountUid;
+    public UUID getPayeeAccountUuid() {
+        return payeeAccountUuid;
     }
 
-    public void setPayeeAccountUid(UUID payeeAccountUid) {
-        this.payeeAccountUid = payeeAccountUid;
+    public void setPayeeAccountUuid(UUID payeeAccountUuid) {
+        this.payeeAccountUuid = payeeAccountUuid;
     }
 
     public UUID getPayeeUuid() {
@@ -66,21 +66,19 @@ public class Payment {
         this.reference = reference;
     }
 
-    public CurrencyAndAmount getCurrencyAndAmount() {
-        return currencyAndAmount;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setCurrencyAndAmount(CurrencyAndAmount currencyAndAmount) {
-        this.currencyAndAmount = currencyAndAmount;
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
-    public Context getContext() {
-        return context;
+    public BigDecimal getMinorUnits() {
+        return minorUnits;
     }
 
-    public void setContext(Context context) {
-        this.context = context;
+    public void setMinorUnits(BigDecimal minorUnits) {
+        this.minorUnits = minorUnits;
     }
-
-
 }
