@@ -1,4 +1,4 @@
-package com.decider.configurations;
+package com.decider.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

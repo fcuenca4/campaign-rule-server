@@ -33,3 +33,8 @@
 *.class
 .clover
 .DS_Store
+logs/
+
+campaign-rule-server/\.mvn/
+
+campaign-rule-server/mvnw\.cmd

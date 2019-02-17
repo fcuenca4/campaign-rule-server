@@ -1,4 +1,4 @@
-package com.decider.configurations;
+package com.decider.configuration;
 
 import com.decider.model.Notification;
 import org.springframework.context.annotation.Bean;

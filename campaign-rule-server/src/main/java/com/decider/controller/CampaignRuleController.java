@@ -1,11 +1,11 @@
 package com.decider.controller;
 
-import com.decider.service.CampaignService;
 import com.decider.exception.InternalServerErrorException;
 import com.decider.model.strategy.CampaignRule;
+import com.decider.service.CampaignService;
 import com.decider.service.IdempotencyService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import java.util.UUID;
 @RestController
 public class CampaignRuleController {
 
-    private static final Logger logger = LogManager.getLogger(ContextController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ContextController.class);
     @Autowired
     private CampaignService campaignService;
     @Autowired

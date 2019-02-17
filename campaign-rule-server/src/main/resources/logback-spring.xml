@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+    <springProperty name="host" source="logstash.host"/>
+    <springProperty name="port" source="logstash.port"/>
+    <springProperty name="name" source="service.name"/>
+    <springProperty name="version" source="service.version"/>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <appender name="TCP" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>localhost:5000</destination>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <mdc />
+                <context />
+                <logLevel />
+                <loggerName />
+                <pattern>
+                    <pattern>
+                        {
+                        "serviceName": "${name}"
+                        }
+                    </pattern>
+                </pattern>
+                <pattern>
+                    <pattern>
+                        {
+                        "serviceVersion": "${version}"
+                        }
+                    </pattern>
+                </pattern>
+                <threadName />
+                <message />
+                <logstashMarkers />
+                <stackTrace />
+            </providers>
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="TCP"/>
+    </root>
+    <logger name="org.springframework" level="INFO"/>
+</configuration>

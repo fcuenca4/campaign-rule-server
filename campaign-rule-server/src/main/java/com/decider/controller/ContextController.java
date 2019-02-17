@@ -1,12 +1,12 @@
 package com.decider.controller;
 
+import com.decider.exception.InternalServerErrorException;
 import com.decider.exception.PublishException;
 import com.decider.model.Context;
-import com.decider.exception.InternalServerErrorException;
 import com.decider.service.ContextService;
 import com.decider.service.IdempotencyService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.apachecommons.CommonsLog;
+import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-
+import java.text.MessageFormat;
+@CommonsLog
 @RestController
 public class ContextController {
-    private static final Logger logger = LogManager.getLogger(ContextController.class);
+    private static final Log logger = org.apache.commons.logging.LogFactory.getLog(ContextController.class);
     @Autowired
     private ContextService contextService;
     @Autowired
@@ -26,6 +27,9 @@ public class ContextController {
     @PostMapping("/context")
     public ResponseEntity<?> postContext(@Valid @RequestBody Context context) {
         try {
+            final String contextString = MessageFormat.format("uuid={0} payment_uuid={1}", context.getId(),
+                    context.getPayment().getId());
+            logger.info(contextString);
             int hashKey = context.hashCode();
             ResponseEntity response = idempotencyService.getValue(hashKey);
             if (response != null){
