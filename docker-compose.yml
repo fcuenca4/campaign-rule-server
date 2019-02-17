@@ -1,5 +1,52 @@
 version: '3'
 services:
+  elasticsearch:
+    build:
+      context: docker-elk/elasticsearch/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./docker-elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - elk
+
+  logstash:
+    command: logstash -f logstash.conf
+    build:
+      context: docker-elk/logstash/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./docker-elk/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./docker-elk/logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./docker-elk/logstash/pipeline/logstash.conf:/usr/share/logstash/logstash.conf
+    ports:
+      - "5000:5000"
+      - "9600:9600"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+  kibana:
+    build:
+      context: docker-elk/kibana/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./docker-elk/kibana/config/:/usr/share/kibana/config:ro
+    ports:
+      - "5601:5601"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
   postgres:
     container_name: postgres
     image: 'postgres:latest'
@@ -8,3 +55,9 @@ services:
     image: 'redis:latest'
     ports:
     - "6666:6379"
+
+networks:
+
+  elk:
+    driver: bridge
+
