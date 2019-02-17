@@ -1,6 +1,7 @@
 package com.decider.configuration;
 
 import com.decider.model.Notification;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -12,10 +13,13 @@ import java.util.UUID;
 
 @Configuration
 public class MessagingConfiguration {
-
+    @Value("${spring.redis.host}")
+    private String host;
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
-        return new JedisConnectionFactory();
+        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
+        jedisConnectionFactory.setHostName(host);
+        return jedisConnectionFactory;
     }
     @Bean
     ChannelTopic topic() {

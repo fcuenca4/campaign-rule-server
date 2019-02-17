@@ -5,11 +5,10 @@
 
 	<groupId>com</groupId>
 	<artifactId>campaign-rule-server</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<packaging>jar</packaging>
-
 	<name>campaign-rule-server</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Dummy project just for fun :)</description>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -36,11 +35,10 @@
 			<version>1.18.4</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.deliveredtechnologies</groupId>
-			<artifactId>rulebook-core</artifactId>
-			<version>0.11</version>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -61,10 +59,6 @@
             <artifactId>jedis</artifactId>
             <version>2.9.0</version>
         </dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-log4j</artifactId>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder -->
 		<dependency>
 			<groupId>net.logstash.logback</groupId>
@@ -77,7 +71,6 @@
 			<artifactId>logbook-spring-boot-starter</artifactId>
 			<version>1.12.1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -85,7 +78,6 @@
 			<version>1.4.194</version>
 		</dependency>
     </dependencies>
-
 	<build>
 		<plugins>
 			<plugin>

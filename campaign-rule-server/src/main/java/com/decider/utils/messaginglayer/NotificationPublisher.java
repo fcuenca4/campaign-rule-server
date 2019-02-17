@@ -15,6 +15,8 @@ public class NotificationPublisher implements MessagePublisher{
     @Autowired
     private ChannelTopic channelTopic;
 
+
+
     public NotificationPublisher() {
     }
 

@@ -1,5 +1,37 @@
 version: '3'
 services:
+  postgres:
+    container_name: postgres
+    image: 'postgres:latest'
+    networks:
+      - elk
+  redis-layer:
+    container_name: redis-layer
+    hostname: redis-layer
+    ports:
+      - "6379:6379"
+    image: 'redis:latest'
+    networks:
+      - elk
+  campaign-rule-server:
+    build:
+      dockerfile: Dockerfile
+      context: campaign-rule-server
+    environment:
+      - REDIS_HOST=redis-layer
+      - REDIS_PORT=6379
+      - PG_USER=postgres
+      - PG_HOST=postgres
+      - PG_DATABASE=postgres
+      - PG_PASSWORD=postgres
+      - PG_PORT=5432
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - redis-layer
+    networks:
+      - elk
   elasticsearch:
     build:
       context: docker-elk/elasticsearch/
@@ -14,7 +46,6 @@ services:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
       - elk
-
   logstash:
     command: logstash -f logstash.conf
     build:
@@ -47,17 +78,9 @@ services:
       - elk
     depends_on:
       - elasticsearch
-  postgres:
-    container_name: postgres
-    image: 'postgres:latest'
-  redis:
-    container_name: redis
-    image: 'redis:latest'
-    ports:
-    - "6666:6379"
+
 
 networks:
-
   elk:
     driver: bridge
 
