@@ -27,9 +27,6 @@ public class ContextController {
     @PostMapping("/context")
     public ResponseEntity<?> postContext(@Valid @RequestBody Context context) {
         try {
-            final String contextString = MessageFormat.format("uuid={0} payment_uuid={1}", context.getId(),
-                    context.getPayment().getId());
-            logger.info(contextString);
             int hashKey = context.hashCode();
             ResponseEntity response = idempotencyService.getValue(hashKey);
             if (response != null){

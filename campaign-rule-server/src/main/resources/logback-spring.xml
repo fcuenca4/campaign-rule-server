@@ -6,7 +6,7 @@
     <springProperty name="version" source="service.version"/>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <appender name="TCP" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>logstash:5000</destination>
+        <destination>${host}:${port}</destination>
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
                 <mdc />
