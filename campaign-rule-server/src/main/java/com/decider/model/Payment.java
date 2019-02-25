@@ -1,5 +1,6 @@
 package com.decider.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,16 +16,17 @@ import java.util.UUID;
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private @NotNull UUID id;
 
-    private @NotNull UUID payeeAccountUuid;
+    private @NotNull UUID destinationPayeeAccountUid;
     private @NotNull  UUID payeeUuid;
     private String reference;
     private @NotNull String currency;
     private @NotNull BigDecimal minorUnits;
 
     public Payment(@NotNull UUID payeeAccountUuid, @NotNull UUID payeeUuid, String reference, @NotNull String currency, @NotNull BigDecimal minorUnits) {
-        this.payeeAccountUuid = payeeAccountUuid;
+        this.destinationPayeeAccountUid = payeeAccountUuid;
         this.payeeUuid = payeeUuid;
         this.reference = reference;
         this.currency = currency;
@@ -43,11 +45,11 @@ public class Payment {
     }
 
     public UUID getPayeeAccountUuid() {
-        return payeeAccountUuid;
+        return destinationPayeeAccountUid;
     }
 
     public void setPayeeAccountUuid(UUID payeeAccountUuid) {
-        this.payeeAccountUuid = payeeAccountUuid;
+        this.destinationPayeeAccountUid = payeeAccountUuid;
     }
 
     public UUID getPayeeUuid() {
