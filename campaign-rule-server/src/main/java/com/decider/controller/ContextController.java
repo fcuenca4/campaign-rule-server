@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.text.MessageFormat;
 @CommonsLog
 @RestController
 public class ContextController {
@@ -32,6 +31,7 @@ public class ContextController {
             if (response != null){
                 return response;
             }
+            contextService.save(context);
             contextService.findAndPublish(context);
             response = ResponseEntity.ok().build();
             idempotencyService.setValue(hashKey,response);

@@ -4,6 +4,7 @@ package com.decider.service;
 import com.decider.exception.PublishException;
 import com.decider.model.Context;
 import com.decider.model.strategy.CampaignRule;
+import com.decider.repository.ContextRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,8 @@ public class ContextService {
     CampaignService campaignService;
     @Autowired
     NotificationService notificationService;
+    @Autowired
+    ContextRepository contextRepository;
 
 
     public List<CampaignRule> findValidRules(Context context) {
@@ -35,5 +38,10 @@ public class ContextService {
     public void findAndPublish(Context context) throws PublishException {
         List<CampaignRule> validRules = this.findValidRules(context);
         notificationService.publish(context, validRules);
+
+    }
+
+    public void save(Context context) {
+        contextRepository.save(context);
     }
 }

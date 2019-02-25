@@ -12,6 +12,10 @@ public class RequestLogConfiguration {
     @Autowired
     private final RequestFilterConfiguration requestFilterConfiguration ;
 
+    public RequestLogConfiguration() {
+        requestFilterConfiguration = null;
+    }
+
     @Bean
     public FilterRegistrationBean requestIdFilterRegistrationBean() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();

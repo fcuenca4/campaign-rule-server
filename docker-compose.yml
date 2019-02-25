@@ -9,7 +9,7 @@ services:
     container_name: redis
     hostname: redis
     ports:
-      - "6379:6379"
+      - "7000:6379"
     image: 'redis:latest'
     networks:
       - elk
@@ -19,7 +19,7 @@ services:
       context: campaign-rule-server
     environment:
       - REDIS_HOST=redis
-      - REDIS_PORT=6379
+      - REDIS_PORT=7000
       - PG_USER=postgres
       - PG_HOST=postgres
       - PG_DATABASE=postgres
